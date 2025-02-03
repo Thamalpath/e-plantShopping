@@ -5,7 +5,8 @@ import  { useDispatch, useSelector } from 'react-redux';
 import { addItem, removeItem, updateQuantity} from './CartSlice';
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
-    const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
+    const [showPlants, setShowPlants] = useState(false);
+    const [checkout, setCheckout] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
     const totalQuantity = useSelector((state) => state.cart.totalQuantity);
     const cart = useSelector((state) => state.cart.items); 
@@ -265,6 +266,11 @@ const handlePlantsClick = (e) => {
     return cart.some((item) => item.name === product.name);
 
   };
+  const handleCheckoutClick = (e) => {
+    e.preventDefault();
+    setCheckout(true);
+    setShowCart(false);
+  }
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -291,7 +297,7 @@ const handlePlantsClick = (e) => {
         <div className="product-grid">
             {plantsArray.map((category, index) => (
     <div key={index}>
-        <h1><div>{category.category}</div></h1>
+        <h1><div className="product-list">{category.category}</div></h1>
         <div className="product-list">
             {category.plants.map((plant, plantIndex) => (
             <div className="product-card" key={plantIndex}>
@@ -307,7 +313,8 @@ const handlePlantsClick = (e) => {
 
         </div>
  ) :  (
-    <CartItem onContinueShopping={handleContinueShopping}/>
+    <CartItem onContinueShopping={handleContinueShopping}
+            onCheckoutClick={handleCheckoutClick}/>
 )}
     </div>
     );
